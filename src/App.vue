@@ -1,15 +1,52 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <form class="card" @submit.prevent="submit">
+      <h1>Auth</h1>
+      <div class="form-control">
+        <label for="email">Email</label>
+        <input type="email" id="email">
+      </div>
+      <div class="form-control">
+        <label for="password">Password</label>
+        <input type="password" id="password">
+      </div>
+      <button class="btn primary" type="submit">Submit</button>
+    </form>
+  </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {useForm} from "@/use/form";
+
+const required = val => !!val;
+
+const minLength = num => val => val.length >= num
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  setup() {
+    const form = useForm({
+      email: {
+        value: 'email.@email.com',
+        validators: {
+          required,
+
+        }
+      },
+      password: {
+        value: '',
+        validators: {
+          required,
+          minLength: minLength(8),
+        }
+      }
+    });
+
+    function submit() {
+
+    }
+
+    return { form, submit }
   }
 }
 </script>
