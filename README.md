@@ -1,4 +1,4 @@
-# vue-3
+# vue-composition
 
 ## Project setup
 ```
