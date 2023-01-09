@@ -4,13 +4,16 @@
       <h1>Auth</h1>
       <div style="text-align: left"><pre>{{ form }}</pre></div>
 
-      <div class="form-control" :class="{ invalid: !form.email.valid }">
+      <div class="form-control" :class="{ invalid: !form.email.valid && form.email.touched }">
         <label for="email">Email</label>
-        <input type="email" id="email" v-model="form.email.value">
+        <input type="email" id="email" v-model="form.email.value" @blur="form.email.blur">
+        <small v-if="form.email.touched && form.email.errors.required">Please enter email</small>
       </div>
-      <div class="form-control" :class="{ invalid: !form.password.valid }">
+      <div class="form-control" :class="{ invalid: !form.password.valid && form.password.touched }">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model="form.password.value">
+        <input type="password" id="password" v-model="form.password.value" @blur="form.password.blur">
+        <small v-if="form.password.touched && form.password.errors.required">Please enter password</small>
+        <small v-else-if="form.password.touched && form.password.errors.minLength">Password min length - 8 symbols</small>
       </div>
       <button class="btn primary" type="submit">Submit</button>
     </form>
@@ -29,7 +32,7 @@ export default {
   setup() {
     const form = useForm({
       email: {
-        value: 'email.@email.com',
+        value: '',
         validators: {
           required,
         }
@@ -55,12 +58,8 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+.card {
+  text-align: left;
 }
 </style>
