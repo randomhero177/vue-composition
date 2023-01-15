@@ -15,14 +15,19 @@
         <small v-if="form.password.touched && form.password.errors.required">Please enter password</small>
         <small v-else-if="form.password.touched && form.password.errors.minLength">Password min length - 8 symbols</small>
       </div>
-      <button class="btn primary" type="submit">Submit</button>
+      <button class="btn primary" type="submit" :disabled="!form.valid">Submit</button>
     </form>
+    <suspense>
+      <users-list />
+    </suspense>
+
   </div>
 
 </template>
 
 <script>
 import {useForm} from "@/use/form";
+import UsersList from "@/components/UsersList.vue";
 
 const required = val => !!val;
 
@@ -53,6 +58,9 @@ export default {
     }
 
     return { form, submit }
+  },
+  components: {
+    UsersList,
   }
 }
 </script>
